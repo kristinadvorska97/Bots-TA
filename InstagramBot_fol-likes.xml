@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+int followers = 0;
+int following_users = 0;</declaration>
+	<template>
+		<name x="5" y="5">InstagramBot</name>
+		<parameter>bool &amp;fl, int &amp;num_likes, int &amp;e</parameter>
+		<declaration>clock x;</declaration>
+		<location id="id0" x="-204" y="-51">
+			<name x="-272" y="-85">not_following</name>
+		</location>
+		<location id="id1" x="-85" y="-51">
+			<name x="-110" y="-42">following</name>
+		</location>
+		<location id="id2" x="238" y="-51">
+			<name x="221" y="-85">liking</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-143" y="50">num_likes &gt; 5 &amp;&amp; x &gt; 25</label>
+			<label kind="assignment" x="-102" y="0">fl := false,
+e := 0</label>
+			<nail x="1" y="42"/>
+			<nail x="-144" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-42" y="-51">num_likes++</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-34" y="-110">fl = true</label>
+			<nail x="-51" y="-84"/>
+			<nail x="8" y="-84"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-204" y="-170">x:=0, 
+fl := false, 
+num_likes := 0,
+following_users++</label>
+			<nail x="-144" y="-93"/>
+		</transition>
+	</template>
+	<template>
+		<name>User</name>
+		<parameter>bool &amp;fl, int &amp;e</parameter>
+		<location id="id3" x="-561" y="8">
+			<name x="-654" y="-8">user_state</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-399" y="25">fl == true &amp;&amp; e == 0</label>
+			<nail x="-408" y="25"/>
+			<nail x="-408" y="85"/>
+			<nail x="-467" y="93"/>
+			<nail x="-527" y="68"/>
+			<nail x="-552" y="42"/>
+			<nail x="-552" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-399" y="-68">fl == true &amp;&amp; e == 0</label>
+			<label kind="assignment" x="-399" y="-51">e := 1, 
+followers++</label>
+			<nail x="-408" y="-8"/>
+			<nail x="-408" y="-76"/>
+			<nail x="-484" y="-76"/>
+			<nail x="-527" y="-51"/>
+			<nail x="-552" y="-25"/>
+		</transition>
+	</template>
+	<system>bool fl1   ;
+int num_likes1;
+int e1;
+
+InstagramBot1 = InstagramBot(fl1, num_likes1, e1);
+User1 = User(fl1,e1);
+
+system InstagramBot1,User1;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
